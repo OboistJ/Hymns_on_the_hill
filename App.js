@@ -1317,21 +1317,21 @@ const NewSongScreen = ({ route }) => {
 // 'index' 상태와 해당 상태를 업데이트하는 함수를 추가합니다.
 const [index, setIndex] = useState(0); // 여기에 'index' 상태를 추가합니다.
 
-// useLayoutEffect(() => {
-//   navigation.setOptions({
-//     headerRight: () => (
-//       <TouchableOpacity
-//         onPress={() => {
-//           // 첫 번째 노래부터 연속 재생을 시작합니다. 'index'를 0으로 설정합니다.
-//           navigation.navigate('ImageDetails_New', { isContinuousPlay: true, favoriteSongs, index: 0 });
-//         }}
-//         style={{ marginRight: 10 }}
-//       >
-//         <Text style={{ color: 'white', fontSize: 16 }}>연속 재생</Text>
-//       </TouchableOpacity>
-//     ),
-//   });
-// }, [navigation]);
+useLayoutEffect(() => {
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+        onPress={() => {
+          // 첫 번째 노래부터 연속 재생을 시작합니다. 'index'를 0으로 설정합니다.
+          navigation.navigate('ImageDetails_New', { isContinuousPlay: true, favoriteSongs, index: 0 });
+        }}
+        style={{ marginRight: 10 }}
+      >
+        {/* <Text style={{ color: 'white', fontSize: 16 }}>연속 재생</Text> */}
+      </TouchableOpacity>
+    ),
+  });
+}, [navigation]);
 
   useEffect(() => {
     if (route.params?.isContinuousPlay) {
