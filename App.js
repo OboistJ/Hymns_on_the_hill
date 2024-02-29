@@ -28,35 +28,33 @@ const HelpModal = ({ visible, onClose }) => (
     onRequestClose={onClose}
   >
     <TouchableWithoutFeedback onPress={onClose}>
-      <View style={styles.modalOverlay2} />
-    </TouchableWithoutFeedback>
-    <View style={styles.modalContent2} >
-      <Text style={fontSize=styles.modalText1} > 
-      <Text style={[styles.modalText1, styles.heading]}>
+      <View style={styles.modalOverlay2}>
+        <TouchableWithoutFeedback>
+          <View style={styles.modalContent2}>
+            <Text style={styles.modalText1}>
+              <Text style={[styles.modalText1, styles.heading]}>
                 언덕위의 찬송 앱을  {'\n'}이용해 주셔서 감사합니다.
-    {'\n\n'}
-  </Text>
-          언덕 위의 찬송 앱은 수록곡 257곡의 악보와 {'\t'}일부 음원, 그리고 간단한 기능을 제공합니다.
-          {'\n\n'}
-
-        ⦁ 찬송 검색 (장, 제목, 가사로 검색할 수 있습니다.) {'\n\n'} 
-
-        ⦁ 메뉴-더욱 소중히 불러보고 싶은 찬송(즐겨찾기) {'\n\n'} 
-          각 항목을 왼쪽으로 스와이프하여 지정/해제,{'\n'}
-          왼쪽 상단 메뉴-더욱 소중히 불러보고 싶은 찬송에서 확인할 수 있습니다. {'\n\n'} 
-
-        ⦁ 찬송 재생 (처음부터 재생, 재생/정지, 반복 재생) {'\n\n'} 
-
-        ⦁ 메뉴-진토리 홈페이지 접속  {'\n\n'} 
-
-        <Text style={styles.smallText}>
-        {'<'}추가 문의 및 요청{'>'}{'\n'}sshkimssh@naver.com{'\n'}juani00@naver.com
-      </Text>
-      </Text>
-      <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-          <Text style={styles.closeButtonText}>닫기</Text>
-        </TouchableOpacity>
-    </View>
+                {'\n\n'}
+              </Text>
+              언덕 위의 찬송 앱은 수록곡 257곡의 악보와 일부 음원, 그리고 간단한 기능을 제공합니다.
+              {'\n\n'}
+              ⦁ 찬송 검색 (장, 제목, 가사로 검색할 수 있습니다.) {'\n\n'} 
+              ⦁ 메뉴-더욱 소중히 불러보고 싶은 찬송(즐겨찾기) {'\n\n'} 
+              각 항목을 왼쪽으로 스와이프하여 지정/해제,{'\n'}
+              왼쪽 상단 메뉴-더욱 소중히 불러보고 싶은 찬송에서 확인할 수 있습니다. {'\n\n'} 
+              ⦁ 찬송 재생 (처음부터 재생, 재생/정지, 반복 재생) {'\n\n'} 
+              ⦁ 메뉴-진토리 홈페이지 접속  {'\n\n'} 
+              <Text style={styles.smallText}>
+                {'<'}추가 문의 및 요청{'>'}{'\n'}sshkimssh@naver.com{'\n'}juani00@naver.com
+              </Text>
+            </Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+        <Text style={styles.closeButtonText}>닫기</Text>
+      </TouchableOpacity>         
+       </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </TouchableWithoutFeedback>
   </Modal>
 );
 
@@ -340,7 +338,7 @@ const HomeScreen = () => {
       {/* 모달 컴포넌트 추가 */}
       <HelpModal visible={modalVisible2} onClose={closeModal2} />
 
-        <TextInput
+      <TextInput
     style={styles.searchInput}
     placeholder="장, 제목, 가사로 검색"
     value={searchQuery}
@@ -348,6 +346,7 @@ const HomeScreen = () => {
     />
 <TouchableOpacity onPress={clearSearch} style={[styles.clearButton, searchQuery ? null : styles.clearButtonDisabled]}>
   <Image
+    source={require('./images/searchCancel.png')}
     style={styles.clearButtonImage}
   />
 </TouchableOpacity>
@@ -367,6 +366,7 @@ const HomeScreen = () => {
     />
   )}
   keyExtractor={(item) => item.id.toString()}
+  ItemSeparatorComponent={() => <View style={styles.separator} />} // 여기에 구분선 컴포넌트 추가
 />
 
       <View style={styles.menuButtonContainer}>
@@ -400,6 +400,8 @@ const HomeScreen = () => {
     </View>
   );
 };
+
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -773,10 +775,13 @@ useLayoutEffect(() => {
                 <Image
                   key={index}
                   source={image}
-                  style={{ width: screenWidth, height: screenHeight ,marginTop: -125,marginBottom: -150 }}
+                  style={{ width: screenWidth, height: screenHeight ,marginTop: -80,marginBottom: -90 }}
                   resizeMode="contain"
                 />
               ))}
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',marginBottom:-40, marginTop:40 }}>
+                <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
+                </View>
     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 40, marginBottom: 10 }}>
         <Slider
           style={{ width: 300, height: 40}}
@@ -838,6 +843,18 @@ const ImageDetails_New = ({ route}) => {
 
   const currentIndex = favoriteSongs.findIndex(song => song.name === imageName);
   const [index, setIndex] = useState(currentIndex);
+
+
+
+  
+
+  // 이미지 이름에 따라 해당 이미지를 가져오는 함수
+
+  // 이미지 제목에 해당하는 이미지 가져오기 
+  const images = imageSources[imageName];
+  
+  
+
 
   const updatePlaybackStatus = (status) => {
     if (!status.isLoaded) {
@@ -1066,6 +1083,7 @@ const handleSliderValueChange = async (value) => {
         headerTitleStyle: {
           fontSize: 23,
         },
+        headerTitleAlign: 'center', // 타이틀을 가운데로 정렬
       });
     }, [navigation, currentSong, index, goToPrevious, goToNext]);
     
@@ -1103,67 +1121,282 @@ const handleSliderValueChange = async (value) => {
     );
   
 
-  return (
-    <ScrollView 
-    contentContainerStyle={styles.scrollContainer}
-    maximumZoomScale={2}
-    minimumZoomScale={1}
-    showsHorizontalScrollIndicator={false}
-    showsVerticalScrollIndicator={false}
+    const scale = useRef(new Animated.Value(1)).current;
+    const translateX = useRef(new Animated.Value(0)).current;
+    const translateY = useRef(new Animated.Value(0)).current;
+    const lastScale = useRef(1);
+    const lastOffset = useRef({ x: 0, y: 0 });
+    
+    const [isPanEnabled, setIsPanEnabled] = useState(false);
+    
+    const doubleTapRef = useRef(); // 더블 탭 핸들러 참조
+  
+    const pinchRef = useRef(null);
+    const panRef = useRef(null);
+  
+    // 더블 탭 핸들러
+    const onDoubleTap = event => {
+      if (event.nativeEvent.state === State.ACTIVE) {
+        Animated.timing(scale, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }).start(() => {
+          lastScale.current = 1;
+          scale.setValue(1);
+          setIsPanEnabled(false);
+          // 위치 초기화
+          lastOffset.current = { x: 0, y: 0 };
+          translateX.setOffset(0);
+          translateY.setOffset(0);
+          translateX.setValue(0);
+          translateY.setValue(0);
+        });
+      }
+    };
+    
+    // 핀치 제스처 이벤트 핸들러
+    const onPinchGestureEvent = Animated.event([{ nativeEvent: { scale: scale } }], { useNativeDriver: true });
+  
+    // 팬 제스처 이벤트 핸들러
+    const onPanGestureEvent = Animated.event(
+      [{ nativeEvent: { translationX: translateX, translationY: translateY } }],
+      { useNativeDriver: true }
+    );
+  
+    // 핀치 제스처 상태 변경 핸들러
+    const onPinchHandlerStateChange = event => {
+      if (event.nativeEvent.oldState === State.ACTIVE) {
+        const newScale = lastScale.current * event.nativeEvent.scale;
+        lastScale.current = Math.max(1, Math.min(newScale, 3)); // 최소 1, 최대 3으로 스케일 조정
+        scale.setValue(lastScale.current);
+        
+        // 확대/축소 상태에 따라 팬 활성화 상태와 위치 초기화 결정
+        setIsPanEnabled(lastScale.current > 1.1);
+        
+        // 스케일이 1로 돌아왔을 때 위치 초기화
+        if (lastScale.current <= 1.1) {
+          // 위치를 초기화하는 로직
+          lastOffset.current = { x: 0, y: 0 }; // 위치 초기화
+          translateX.setOffset(0);
+          translateY.setOffset(0);
+          translateX.setValue(0);
+          translateY.setValue(0);
+        }
+      }
+    };
+  
+  
+    const onPanHandlerStateChange = event => {
+      if (event.nativeEvent.oldState === State.ACTIVE && lastScale.current > 1) {
+        const imageSize = { width: screenWidth, height: screenHeight }; // 이미지 크기 정보
+        const scaledWidth = imageSize.width * lastScale.current;
+        const scaledHeight = imageSize.height * lastScale.current;
+        const maxX = Math.max(0, (scaledWidth - screenWidth) / 2);
+        const maxY = Math.max(0, (scaledHeight - screenHeight) / 0.3);
+    
+        // 현재 위치 및 이동량 계산
+        let newX = lastOffset.current.x + event.nativeEvent.translationX;
+        let newY = lastOffset.current.y + event.nativeEvent.translationY;
+    
+        // 좌표의 최대치 설정
+        newX = Math.min(Math.max(newX, -maxX), maxX);
+        newY = Math.min(Math.max(newY, -maxY), maxY);
+    
+        // 좌표 업데이트
+        lastOffset.current.x = newX;
+        lastOffset.current.y = newY;
+    
+        // translateX, translateY에 적용
+        translateX.setOffset(newX);
+        translateX.setValue(0);
+        translateY.setOffset(newY);
+        translateY.setValue(0);
+      }
+    };
+  
+    return (
+      <TapGestureHandler
+      onHandlerStateChange={onDoubleTap}
+      numberOfTaps={2}
+      ref={doubleTapRef}
     >
+      <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      nestedScrollEnabled={false} // ScrollView가 내부 제스처 감지
+      scrollEnabled={!isPanEnabled} // 팬 활성화 상태에 따라 스크롤뷰 활성화/비활성화
+    >
+      <View style={{ flex: 1 }}>
+     
+        <PinchGestureHandler
+          onGestureEvent={onPinchGestureEvent}
+          onHandlerStateChange={onPinchHandlerStateChange}
+          minScale={1} // 최소 스케일 설정
+          maxScale={3}
+          ref={doubleTapRef} // 더블 탭 핸들러 참조 추가
+        >
+          <Animated.View style={{ flex: 1 }}>
+            <PanGestureHandler
+              enabled={isPanEnabled} // 상태에 따라 팬 제스처 활성화/비활성화
+              onGestureEvent={onPanGestureEvent}
+              onHandlerStateChange={onPanHandlerStateChange}
+              scrollEnabled={!isPanEnabled} // 팬 활성화 상태에 따라 스크롤뷰 활성화/비활성화
+              simultaneousHandlers={pinchRef} // 여기에도 simultaneousHandlers 속성 추가
+            >
+          <Animated.View style={{ flex: 1, transform: [{ scale: scale }, { translateX: translateX }, { translateY: translateY }] }}>
+                {images.map((image, index) => (
+                  <Image
+                    key={index}
+                    source={image}
+                    style={{ width: screenWidth, height: screenHeight ,marginTop: -80,marginBottom: -90 }}
+                    resizeMode="contain"
+                  />
+                ))}
 
-    {currentImage && (
-        <Image key={index} source={currentImage} style={styles.image} />
-      )}    
-       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center',marginBottom:-40, marginTop:40 }}>
+                <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
+                </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 40, marginBottom: 10 }}>
+      
+      
+      
+          <Slider
+            style={{ width: 300, height: 40}}
+            minimumValue={0}
+            maximumValue={1}
+            value={playbackPosition / playbackDuration}
+            onValueChange={handleSliderValueChange}
+          />
+    {/* 반복 재생 토글 버튼 */}
+  </View>
   <View style={{ flexDirection: 'row' }}>
-  <Slider
-          style={{ width: 300, height: 40}}
-          minimumValue={0}
-          maximumValue={1}
-          value={playbackPosition / playbackDuration}
-          onValueChange={handleSliderValueChange}
-        />
-  {/* 반복 재생 토글 버튼 */}
-</View>
-<View style={{ flexDirection: 'row' }}>
-<TouchableOpacity onPress={handleRestart} style={{ marginRight: 20 }}>
-            <Image source={require('./images/backward.png')} style={{ width: 30, height: 30, }} />
-          </TouchableOpacity>
-  {/* 재생/일시정지 토글 버튼 */}
-            <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 40,marginLeft:30 }}>
-            <Image
-              source={isPlaying ? require('./images/pause.png') : require('./images/play.png')}
-              style={{ width: 30, height: 30 }}
-            />
-          </TouchableOpacity>
-
-  {/* 반복 재생 토글 버튼 */}
-  <TouchableOpacity onPress={toggleLooping} style={styles.loopButton}>
-  <Image
-    source={isLooping ? require('./images/looping.png') : require('./images/nonloop.png')} // 이미지 경로는 실제 프로젝트 구조에 맞게 조정
-    style={{ width: 35, height: 35, marginBottom:50,bottom:5}} // 이미지 크기 조정
-  /> 
-   </TouchableOpacity>
-</View>
+  <TouchableOpacity onPress={handleRestart} style={{ marginLeft:75,marginRight: 56 }}>
+              <Image source={require('./images/backward.png')} style={{ width: 30, height: 30, }} />
+            </TouchableOpacity>
+    {/* 재생/일시정지 토글 버튼 */}
+              <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 80,marginLeft:30 }}>
+              <Image
+                source={isPlaying ? require('./images/pause.png') : require('./images/play.png')}
+                style={{ width: 30, height: 30 }}
+              />
+            </TouchableOpacity>
+   {/* 반복 재생 토글 버튼 */}
+    <TouchableOpacity onPress={toggleLooping} style={styles.loopButton}>
+    <Image
+      source={isLooping ? require('./images/looping.png') : require('./images/nonloop.png')} // 이미지 경로는 실제 프로젝트 구조에 맞게 조정
+      style={{ width: 35, height: 35, marginBottom:50,bottom:5}} // 이미지 크기 조정
+    /> 
+     </TouchableOpacity>
+                </View>
+              </Animated.View>
+            </PanGestureHandler>
+          </Animated.View>
+        </PinchGestureHandler>
+        
       </View>
     </ScrollView>
-  );
-};
+    </TapGestureHandler>
+    );
+  };
 
 const NewSongScreen = ({ route }) => {
   const { favoriteSongs } = route.params;
   const navigation = useNavigation(); 
   const [filteredSongs, setFilteredSongs] = useState(favoriteSongs);
 
-  const navigateToImageDetail = (imageName) => {
+  const navigateToImageDetail = (imageName,songIndex) => {
     // 즐겨찾기된 항목 목록과 현재 선택한 이미지 이름을 전달합니다.
-    navigation.navigate('ImageDetails_New', { imageName, favoriteSongs });
+    navigation.navigate('ImageDetails_New', { imageName, favoriteSongs,index:songIndex });
   };
 
 
+  //--------------------------------------------------------------/
 
+// 'index' 상태와 해당 상태를 업데이트하는 함수를 추가합니다.
+const [index, setIndex] = useState(0); // 여기에 'index' 상태를 추가합니다.
+
+// useLayoutEffect(() => {
+//   navigation.setOptions({
+//     headerRight: () => (
+//       <TouchableOpacity
+//         onPress={() => {
+//           // 첫 번째 노래부터 연속 재생을 시작합니다. 'index'를 0으로 설정합니다.
+//           navigation.navigate('ImageDetails_New', { isContinuousPlay: true, favoriteSongs, index: 0 });
+//         }}
+//         style={{ marginRight: 10 }}
+//       >
+//         <Text style={{ color: 'white', fontSize: 16 }}>연속 재생</Text>
+//       </TouchableOpacity>
+//     ),
+//   });
+// }, [navigation]);
+
+  useEffect(() => {
+    if (route.params?.isContinuousPlay) {
+      // 연속 재생 모드 활성화 및 첫 곡 자동 재생
+      setIndex(0); // 첫 곡으로 인덱스 설정
+      playCurrentIndexAudio(); // 첫 곡 재생
+    }
+  }, [route.params?.isContinuousPlay]);
+  
+  const playCurrentIndexAudio = async () => {
+    // 현재 인덱스의 오디오 소스 설정
+    const source = soundSources[favoriteSongs[index].name];
+    if (!source) return; // 오디오 소스가 없으면 중단
+  
+    // 기존에 로드된 오디오가 있으면 언로드
+    if (sound) {
+      await sound.unloadAsync();
+    }
+  
+    // 새 오디오 로드 및 재생
+    const { sound: newSound } = await Audio.Sound.createAsync(
+      source,
+      { shouldPlay: true },
+      updatePlaybackStatus,
+      false
+    );
+    setSound(newSound);
+  };
+  
+  const updatePlaybackStatus = async (status) => {
+    if (!status.isLoaded) {
+      setIsLoading(true);
+      return;
+    }
+  
+    setIsLoading(false);
+    setIsPlaying(status.isPlaying);
+    setPlaybackPosition(status.positionMillis);
+    setPlaybackDuration(status.durationMillis);
+  
+    // 곡이 끝났을 때 다음 곡 자동 재생 처리
+    if (status.didJustFinish && route.params?.isContinuousPlay) {
+      const nextIndex = index + 1;
+      if (nextIndex < favoriteSongs.length) {
+        setIndex(nextIndex); // 다음 곡으로 인덱스 업데이트
+        playCurrentIndexAudio(); // 다음 곡 자동 재생
+      } else {
+        // 마지막 곡에서 끝났을 경우, 연속 재생 모드 종료 또는 첫 곡으로 돌아가기
+        // 예: setIndex(0); playCurrentIndexAudio(); // 첫 곡으로 다시 시작
+        setIsPlaying(false); // 혹은 재생 중지
+      }
+    }
+  };
+  
+  // 인덱스가 변경될 때마다 이미지와 오디오 소스를 업데이트하는 useEffect 내부에
+  // playCurrentIndexAudio 함수 호출을 추가하여, 인덱스 변경 시 자동으로 해당 곡을 재생하도록 합니다.
+  useEffect(() => {
+    // setCurrentImage(imageSources[favoriteSongs[index].name][0]);
+    // setSoundSource(soundSources[favoriteSongs[index].name]);
+    if (route.params?.isContinuousPlay) {
+      playCurrentIndexAudio(); // 인덱스가 변경될 때마다 새 곡 자동 재생
+    }
+  }, [index, favoriteSongs]);
+
+  //--------------------------------------------------------------/
 
   // 즐겨찾기 해제 함수
   const removeFavorite = async (id) => {
@@ -1196,7 +1429,7 @@ const NewSongScreen = ({ route }) => {
         {
           component: (
             <TouchableOpacity
-              onPress={() => removeFavorite(item.id)}
+              onPress={() => removeFavorite(item.id,index)}
               style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}
             >
               <Image
@@ -1210,7 +1443,7 @@ const NewSongScreen = ({ route }) => {
       ]}
       autoClose={true}
     >
-      <TouchableOpacity onPress={() => navigateToImageDetail(item.name)}>
+      <TouchableOpacity onPress={() => navigateToImageDetail(item.name, index)}>
         <View style={styles.itemContainer}>
           <Text style={[styles.itemName, { fontWeight: 'bold' }]}>
             {item.name}
@@ -1221,6 +1454,7 @@ const NewSongScreen = ({ route }) => {
   )}
         keyExtractor={(item) => item.id.toString()}        
         contentContainerStyle={{ paddingVertical: 5,}}
+        ItemSeparatorComponent={() => <View style={styles.separator} />} // 구분선 추가
       />
     </View>
   );
@@ -1238,10 +1472,6 @@ const App = () => {
       screenOptions={({ route, navigation }) => ({
         // route.params.direction을 기반으로 애니메이션 설정을 조건부로 변경
         gestureDirection: route.params?.direction === 'back' ? 'horizontal-inverted' : 'horizontal',
-        // transitionSpec: {
-        //   open: { animation: 'timing', config: { duration: 300 } },
-        //   close: { animation: 'timing', config: { duration: 300 } },
-        // },
         headerShown:false
       })}      
       >
@@ -1259,12 +1489,7 @@ const App = () => {
           name="더욱 소중히 불러보고 싶은 찬송"
           component={NewSongScreen}
           options={{
-            // headerBackground: () => (
-            //   <Image
-            //     source={require('./images/coverImage.png')}
-            //     style={{ width: '100%', height: '110%', resizeMode: 'cover'}}
-            //   />
-            // ),
+
             headerBackTitle: '목록',
             headerTintColor: 'white',
             headerTitleStyle: {
@@ -1302,7 +1527,7 @@ const HomeStack = () => {
   return (
     <Stack.Navigator initialRouteName="찬송 목록" screenOptions={{
       headerTitleStyle: {
-        fontSize: 20,
+        fontSize: 24,
 
       },
       headerBackground: () => (
@@ -1317,7 +1542,7 @@ const HomeStack = () => {
         options={({ navigation }) => ({
           headerTitle: '언덕 위의 찬송',
           headerTitleStyle: {
-            fontSize: 30,
+            fontSize: 24,
             fontWeight: 'bold',
             color: 'white',
           },
@@ -1336,13 +1561,6 @@ const HomeStack = () => {
             headerTitleStyle: {
               fontSize: 23, // 헤더 타이틀의 폰트 사이즈를 15로 설정
             },
-            // headerBackground: () => (
-            //   <Image
-            //     source={require('./images/coverImage.png')} // 배경이미지
-            //     style={{ width: '100%', height: '110%' }} // 이미지가 헤더 전체를 채우도록 설정
-            //   />),
-             // title: item.name.match(/\d+/) ? item.name.match(/\d+/)[0] + '장' : '번호 없음',
-              
             }} />
       ))}
 
@@ -1357,14 +1575,8 @@ const HomeStack = () => {
           headerTitleStyle: {
             fontSize: 18, // 헤더 타이틀의 폰트 사이즈를 15로 설정
           },
-          // headerBackground: () => (
-          //   <Image
-          //     source={require('./images/coverImage.png')} // 배경이미지
-          //     style={{ width: '100%', height: '110%' }} // 이미지가 헤더 전체를 채우도록 설정
-          //   />),
         }}
       />
-      {/* ImageDetail 화면 추가 */}
       <Stack.Screen
         name="ImageDetail"
         component={ImageDetailScreen}
@@ -1372,16 +1584,8 @@ const HomeStack = () => {
           headerBackTitle: '목록',
           headerTintColor: 'white',
           headerTitleStyle: {
-            fontSize: 25,
+            fontSize: 23,
           },
-          // headerBackground: () => (
-          //   <Image
-          //     source={require('./images/coverImage.png')}
-          //     style={{ width: '100%', height: '110%' }}
-          //   />
-          // ),
-          // // route.params에서 이미지의 제목을 가져와서 헤더 타이틀로 설정
-          // title: route.params.imageName.match(/^\d+/)+'장',
         })}
       />
     </Stack.Navigator>
