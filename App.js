@@ -404,6 +404,11 @@ const HomeScreen = () => {
 
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const marginTopValue = screenWidth * -0.2  ; // screenWidth의 10%를 marginTop으로 설정
+const marginBottomValue = screenWidth * -0.2; // screenWidth의 10%를 marginBottom으로 설정
+const marginRightValue = screenWidth * 0.1;
+const marginLeftValue = screenWidth * 0.1;
+
 
 const ImageDetailScreen = ({ route,navigation }) => {
   const { imageName } = route.params;
@@ -775,7 +780,7 @@ useLayoutEffect(() => {
                 <Image
                   key={index}
                   source={image}
-                  style={{ width: screenWidth, height: screenHeight ,marginTop: -80,marginBottom: -90 }}
+                  style={{ width: screenWidth, height: screenHeight ,marginTop: marginTopValue,marginBottom: marginBottomValue }}
                   resizeMode="contain"
                 />
               ))}
@@ -790,21 +795,21 @@ useLayoutEffect(() => {
           value={playbackPosition / playbackDuration}
           onValueChange={handleSliderValueChange}
         />
-  {/* 반복 재생 토글 버튼 */}
-</View>
-<View style={{ flexDirection: 'row' }}>
-<TouchableOpacity onPress={handleRestart} style={{ marginLeft:75,marginRight: 56 }}>
-            <Image source={require('./images/backward.png')} style={{ width: 30, height: 30, }} />
-          </TouchableOpacity>
-  {/* 재생/일시정지 토글 버튼 */}
-            <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 80,marginLeft:30 }}>
-            <Image
-              source={isPlaying ? require('./images/pause.png') : require('./images/play.png')}
-              style={{ width: 30, height: 30 }}
-            />
-          </TouchableOpacity>
- {/* 반복 재생 토글 버튼 */}
-  <TouchableOpacity onPress={toggleLooping} style={styles.loopButton}>
+ {/* 처음부터 토글 버튼 */}
+ </View>
+  <View style={{  flexDirection: 'row', justifyContent: 'center'}}>
+  <TouchableOpacity onPress={handleRestart} style={{ marginLeft:80,marginRight: 0 }}>
+              <Image source={require('./images/backward.png')} style={{ width: 30, height: 30, }} />
+            </TouchableOpacity>
+    {/* 재생/일시정지 토글 버튼 */}
+              <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 80,marginLeft:80 }}>
+              <Image
+                source={isPlaying ? require('./images/pause.png') : require('./images/play.png')}
+                style={{ width: 30, height: 30 }}
+              />
+            </TouchableOpacity>
+   {/* 반복 재생 토글 버튼 */}
+    <TouchableOpacity onPress={toggleLooping} style={{marginRight: 80}}>
   <Image
     source={isLooping ? require('./images/looping.png') : require('./images/nonloop.png')} // 이미지 경로는 실제 프로젝트 구조에 맞게 조정
     style={{ width: 35, height: 35, marginBottom:50,bottom:5}} // 이미지 크기 조정
@@ -1250,7 +1255,7 @@ const handleSliderValueChange = async (value) => {
                   <Image
                     key={index}
                     source={image}
-                    style={{ width: screenWidth, height: screenHeight ,marginTop: -80,marginBottom: -90 }}
+                    style={{ width: screenWidth, height: screenHeight ,marginTop: marginTopValue,marginBottom: marginBottomValue }}
                     resizeMode="contain"
                   />
                 ))}
@@ -1269,21 +1274,21 @@ const handleSliderValueChange = async (value) => {
             value={playbackPosition / playbackDuration}
             onValueChange={handleSliderValueChange}
           />
-    {/* 반복 재생 토글 버튼 */}
+    {/* 처음부터 토글 버튼 */}
   </View>
-  <View style={{ flexDirection: 'row' }}>
-  <TouchableOpacity onPress={handleRestart} style={{ marginLeft:75,marginRight: 56 }}>
+  <View style={{  flexDirection: 'row', justifyContent: 'center'}}>
+  <TouchableOpacity onPress={handleRestart} style={{ marginLeft:80,marginRight: 0 }}>
               <Image source={require('./images/backward.png')} style={{ width: 30, height: 30, }} />
             </TouchableOpacity>
     {/* 재생/일시정지 토글 버튼 */}
-              <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 80,marginLeft:30 }}>
+              <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 80,marginLeft:80 }}>
               <Image
                 source={isPlaying ? require('./images/pause.png') : require('./images/play.png')}
                 style={{ width: 30, height: 30 }}
               />
             </TouchableOpacity>
    {/* 반복 재생 토글 버튼 */}
-    <TouchableOpacity onPress={toggleLooping} style={styles.loopButton}>
+    <TouchableOpacity onPress={toggleLooping} style={{marginRight: 80}}>
     <Image
       source={isLooping ? require('./images/looping.png') : require('./images/nonloop.png')} // 이미지 경로는 실제 프로젝트 구조에 맞게 조정
       style={{ width: 35, height: 35, marginBottom:50,bottom:5}} // 이미지 크기 조정
