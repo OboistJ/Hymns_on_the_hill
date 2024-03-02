@@ -597,13 +597,7 @@ useFocusEffect(
   }, [sound])
 );
 
-const onDoubleTap = ({ nativeEvent }) => {
-  if (nativeEvent.state === State.ACTIVE) {
-    // 여기에 초기 확대/축소 상태로 돌아가는 로직 구현
-    console.log('더블 탭 감지');
-    // 예: ZoomableView의 zoomLevel을 조정하는 함수 호출
-  }
-};
+
 
 
   return (
@@ -616,7 +610,7 @@ const onDoubleTap = ({ nativeEvent }) => {
     >
     <View style={{ flex: 1}}>
 
-    <TapGestureHandler onHandlerStateChange={onDoubleTap} numberOfTaps={2}>
+    
        
       <ReactNativeZoomableView // ZoomableView 추가
       
@@ -670,7 +664,7 @@ const onDoubleTap = ({ nativeEvent }) => {
 
       </View>
       </ReactNativeZoomableView>
-      </TapGestureHandler>
+     
       </View>
       </ScrollView>
   );
@@ -874,59 +868,77 @@ const ImageDetails_New = ({ route,navigation}) => {
       }, [sound])
     );
 
+    const images = imageSources[imageName];
+
+    return (
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        //maximumZoomScale={2}
+        //minimumZoomScale={1}
+        showsHorizontalScrollIndicator={false}
+        //showsVerticalScrollIndicator={false}
+      >
+      <View style={{ flex: 1}}>
   
-
-  return (
-    <ScrollView 
-    contentContainerStyle={styles.scrollContainer}
-    maximumZoomScale={2}
-    minimumZoomScale={1}
-    showsHorizontalScrollIndicator={false}
-    showsVerticalScrollIndicator={false}
-    >
-
-    {currentImage && (
-        <Image key={index} source={currentImage} style={styles.image} />
-      )}    
-       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:20}}>
-      <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
-  <View style={{ flexDirection: 'row' }}>
-  <Slider
-          style={{ width: 300, height: 40, bottom:5}}
-          minimumValue={0}
-          maximumValue={1}
-          value={playbackPosition / playbackDuration}
-          onValueChange={handleSliderValueChange}
-          minimumTrackTintColor="#50594f"
-          maximumTrackTintColor="#CCCCCC" 
-          thumbTintColor="#88ab85" 
-        />
-  {/* 반복 재생 토글 버튼 */}
+      
+         
+        <ReactNativeZoomableView // ZoomableView 추가
+        
+            maxZoom={3} // 최대 줌 배율
+            minZoom={1} // 최소 줌 배율
+            zoomStep={0.1} // 줌 단계
+            initialZoom={1} // 초기 줌 배율
+            bindToBorders={images.length < 2}
+          >
+        {images.map((image, index) => (
+          <Image key={index} source={image} style={styles.image} />
+        ))}
+        
+        
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:5}}>
+        <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
+    <View style={{ flexDirection: 'row' }}>
+    <Slider
+            style={{ width: 300, height: 40, bottom:5}}
+            minimumValue={0}
+            maximumValue={1}
+            value={playbackPosition / playbackDuration}
+            onValueChange={handleSliderValueChange}
+            minimumTrackTintColor="#50594f"
+            maximumTrackTintColor="#CCCCCC" 
+            thumbTintColor="#88ab85" 
+          />
+    {/* 반복 재생 토글 버튼 */}
   </View>
-<View style={{ flexDirection: 'row', justifyContent: 'center',left: 8, bottom:10}}>
-<TouchableOpacity onPress={handleRestart} style={{ marginRight: 20 }}>
-            <Image source={require('./images/backward.png')} style={{ width: 30, height: 30}} />
-          </TouchableOpacity>
-  {/* 재생/일시정지 토글 버튼 */}
-            <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 40,marginLeft:30}}>
-            <Image
-              source={isPlaying ? require('./images/pause.png') : require('./images/play.png')}
-              style={{ width: 30, height: 30}}
-            />
-          </TouchableOpacity>
-
-  {/* 반복 재생 토글 버튼 */}
-  <TouchableOpacity onPress={toggleLooping} style={{ marginRight: 20 }}>
-  <Image
-    source={isLooping ? require('./images/looping.png') : require('./images/nonloop.png')} // 이미지 경로는 실제 프로젝트 구조에 맞게 조정
-    style={{ width: 30, height: 30 }}// 이미지 크기 조정
-  /> 
-   </TouchableOpacity>
-</View>
-      </View>
-    </ScrollView>
-  );
-};
+  <View style={{ flexDirection: 'row', justifyContent: 'center',left: 8, bottom:10}}>
+  <TouchableOpacity onPress={handleRestart} style={{ marginRight: 20 }}>
+              <Image source={require('./images/backward.png')} style={{ width: 30, height: 30}} />
+            </TouchableOpacity>
+    {/* 재생/일시정지 토글 버튼 */}
+              <TouchableOpacity onPress={handleTogglePlayPause} style={{ marginRight: 40,marginLeft:30}}>
+              <Image
+                source={isPlaying ? require('./images/pause.png') : require('./images/play.png')}
+                style={{ width: 30, height: 30}}
+              />
+            </TouchableOpacity>
+  
+    {/* 반복 재생 토글 버튼 */}
+    <TouchableOpacity onPress={toggleLooping} style={{ marginRight: 20 }}>
+    <Image
+      source={isLooping ? require('./images/looping.png') : require('./images/nonloop.png')} // 이미지 경로는 실제 프로젝트 구조에 맞게 조정
+      style={{ width: 30, height: 30 }}// 이미지 크기 조정
+    /> 
+     </TouchableOpacity>
+     
+  </View>
+  
+        </View>
+        </ReactNativeZoomableView>
+       
+        </View>
+        </ScrollView>
+    );
+  };
 
 
 const NewSongScreen = ({ route }) => {
