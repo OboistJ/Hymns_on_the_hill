@@ -1054,34 +1054,33 @@ const handleSliderValueChange = async (value) => {
         ),
         headerLeft: () => (
           <View style={styles.headerLeftContainer}>
-            {/* 목록으로 돌아가기 버튼 */}
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.replace('Home', { direction: 'back' })}>
               <Image
                 source={require('./images/previous.png')}
                 style={styles.buttonImagePrevIndex}
               />
               <Text style={styles.buttonTextIndex}>목록</Text>
             </TouchableOpacity>
-    
-            {/* 이전 버튼 */}
-            <TouchableOpacity onPress={goToPrevious}>
-              <Image
-                source={require('./images/previous.png')}
-                style={styles.buttonImagePrev}
-              />
+            <TouchableOpacity onPress={goToPrevious} style={{ flexDirection: 'row', alignItems: 'center',  position: 'absolute',   left: 100 ,}}>
+               <Image
+                    source={require('./images/previous.png')}
+                    style={{ flexDirection: 'row', alignItems: 'center',  width: 22, height: 22}}
+                  />
+              {/* <Text style={{fontSize: 20,color: 'white',}}>이전</Text> */}
             </TouchableOpacity>
           </View>
         ),
+     
         headerRight: () => (
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={goToNext}>
-              <Image
-                source={require('./images/next.png')}
-                style={styles.buttonImageNext}
-              />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={goToNext} style={{ flexDirection: 'row', alignItems: 'center', position: 'absolute',  right: 80 }}>
+            {/* <Text style={{fontSize: 20,color: 'white',}}>다음</Text> */}
+            <Image
+                    source={require('./images/next.png')}
+                    style={{ flexDirection: 'row', alignItems: 'center',  width: 22, height: 22}}
+                  />
+          </TouchableOpacity>
         ),
+          
         title: `${currentSong.name.match(/\d+/)}장`,
         headerTitleStyle: {
           fontSize: 23,
