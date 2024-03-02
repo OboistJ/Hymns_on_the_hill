@@ -333,6 +333,7 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={openModal2} style={styles.helpButtonContainer}>
   <Image source={require('./images/Help.png')} style={styles.helpIcon} />
   <Text style={styles.helpButtonText}>도움말</Text>
+  
 </TouchableOpacity>
 
       {/* 모달 컴포넌트 추가 */}
