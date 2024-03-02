@@ -625,7 +625,7 @@ useFocusEffect(
       ))}
       
       
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:5}}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:0}}>
       <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
   <View style={{ flexDirection: 'row' }}>
   <Slider
@@ -895,7 +895,7 @@ const ImageDetails_New = ({ route,navigation}) => {
         ))}
         
         
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:5}}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:0}}>
         <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
     <View style={{ flexDirection: 'row' }}>
     <Slider
@@ -910,7 +910,7 @@ const ImageDetails_New = ({ route,navigation}) => {
           />
     {/* 반복 재생 토글 버튼 */}
   </View>
-  <View style={{ flexDirection: 'row', justifyContent: 'center',left: 8, bottom:10}}>
+  <View style={{ flexDirection: 'row', justifyContent: 'center',left: 8, bottom:5}}>
   <TouchableOpacity onPress={handleRestart} style={{ marginRight: 20 }}>
               <Image source={require('./images/backward.png')} style={{ width: 30, height: 30}} />
             </TouchableOpacity>
