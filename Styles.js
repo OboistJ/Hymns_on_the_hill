@@ -180,6 +180,7 @@ export const styles = StyleSheet.create({
       bottom:8,
       left:20
     },
+  
     headerLeftContainer: {
       flexDirection: 'row',
       alignItems: 'center',

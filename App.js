@@ -406,8 +406,7 @@ const HomeScreen = () => {
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const marginTopValue = screenWidth * -0.2  ; // screenWidth의 10%를 marginTop으로 설정
 const marginBottomValue = screenWidth * -0.2; // screenWidth의 10%를 marginBottom으로 설정
-const marginRightValue = screenWidth * 0.1;
-const marginLeftValue = screenWidth * 0.1;
+
 
 
 const ImageDetailScreen = ({ route,navigation }) => {
@@ -551,19 +550,19 @@ const handleSliderValueChange = async (value) => {
   const imageNames = Object.keys(imageSources); // 모든 이미지 이름을 배열로 변환
   const index = imageNames.indexOf(imageName); // 현재 이미지의 인덱스
 
-  const goToPrevious = () => {
-    if(index > 0) {
+  const goToPrevious = useCallback(() => {
+    if (index > 0) {
       const prevImageName = imageNames[index - 1];
-      navigation.replace('ImageDetailScreen', { imageName: prevImageName, direction: 'back' });
+      navigation.replace('ImageDetailScreen', { imageName: prevImageName });
     }
-  };
+  }, [index, imageNames, navigation]);
 
-  const goToNext = () => {
-    if(index < imageNames.length - 1) {
+  const goToNext = useCallback(() => {
+    if (index < imageNames.length - 1) {
       const nextImageName = imageNames[index + 1];
       navigation.replace('ImageDetailScreen', { imageName: nextImageName });
     }
-  };
+  }, [index, imageNames, navigation]);
 
  
 useLayoutEffect(() => {
@@ -578,35 +577,34 @@ useLayoutEffect(() => {
     ),
     headerLeft: () => (
       <View style={styles.headerLeftContainer}>
-        {/* 목록으로 돌아가기 버튼 */}
-        <TouchableOpacity onPress={() => navigation.replace('Home', { direction: 'back' })}>
+      <TouchableOpacity onPress={() => navigation.replace('Home', { direction: 'back' })}>
           <Image
             source={require('./images/previous.png')}
             style={styles.buttonImagePrevIndex}
           />
           <Text style={styles.buttonTextIndex}>목록</Text>
         </TouchableOpacity>
-
-        {/* 이전 버튼 - 비활성화 상태 없이 항상 표시 */}
-        <TouchableOpacity onPress={goToPrevious}>
-          <Image
-            source={require('./images/previous.png')}
-            style={styles.buttonImagePrev}
-          />
+        <TouchableOpacity onPress={goToPrevious} style={{ flexDirection: 'row', alignItems: 'center',  position: 'absolute',   left: 100 ,}}>
+           <Image
+                source={require('./images/previous.png')}
+                style={{ flexDirection: 'row', alignItems: 'center',  width: 22, height: 22}}
+              />
+          {/* <Text style={{fontSize: 20,color: 'white',}}>이전</Text> */}
         </TouchableOpacity>
       </View>
     ),
+ 
     headerRight: () => (
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={goToNext}>
-          <Image
-            source={require('./images/next.png')} // 이미지 경로를 여기에 입력하세요.
-            style={styles.buttonImageNext}
-          />
-        </TouchableOpacity>
-      </View>
-      
+      <TouchableOpacity onPress={goToNext} style={{ flexDirection: 'row', alignItems: 'center', position: 'absolute',  right: 80 }}>
+        {/* <Text style={{fontSize: 20,color: 'white',}}>다음</Text> */}
+        <Image
+                source={require('./images/next.png')}
+                style={{ flexDirection: 'row', alignItems: 'center',  width: 22, height: 22}}
+              />
+      </TouchableOpacity>
     ),
+      
+    
     title: `${imageNames[index].match(/\d+/)}장`,
     headerTitleStyle: {
       fontSize: 23, // 여기에서 폰트 사이즈를 원하는 크기로 조정하세요.
