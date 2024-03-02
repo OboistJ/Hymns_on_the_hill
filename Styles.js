@@ -10,9 +10,9 @@ export const styles = StyleSheet.create({
       paddingRight:10,
     },
     title: {
-      top:7,
+      top:3,
       left:40,
-      fontSize: 20,
+      fontSize: 24,
       fontWeight: 'bold',
       //marginBottom: ,
       marginTop: 20,
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
       position: 'absolute',
       right: 9,
       padding:20,
-      top: 49,
+      top: 54,
       right : -10,
     },
     // clearButtonText: {
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
       height: 50,
     },
     itemName: {
-      top: 20, // 이미지의 중앙에 위치하도록 설정
+      top: 10, // 이미지의 중앙에 위치하도록 설정
       fontSize: 16,
     },
     separator: {
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
     },
     image: {
-      marginTop:-25,
+      marginTop:0,
       width: '110%', // 이미지를 화면에 꽉 차도록 넓이 설정
       height: windowHeight * 0.8, // 이미지가 화면의 70%를 차지하도록 설정
       resizeMode: 'contain', // 이미지가 화면에 꽉 차도록 조절
@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
       marginBottom: 20,
     },
     menuButtonText: {
-      fontSize: 30,
+      fontSize: 28,
       fontWeight: 'bold',
       color: 'black',
     },
@@ -270,13 +270,13 @@ export const styles = StyleSheet.create({
       right:5
     },
     helpIcon: {
-      bottom:-3,
+      bottom:2,
       width: 16, // 아이콘의 너비 설정
       height:16, // 아이콘의 높이 설정
       marginRight: 5, // 아이콘과 텍스트 사이의 간격 조절
     },
     helpButtonText: {
-      bottom:-3,
+      bottom:2,
       fontSize: 16.5, // 텍스트의 크기 설정
       // 다른 텍스트 스타일들...
     },
