@@ -429,7 +429,8 @@ useEffect(() => {
   );
 };
 
-
+const { width, height } = Dimensions.get('window');
+setY = height * 0.2
 
 const ImageDetailScreen = ({ route,navigation }) => {
   const { imageName } = route.params;
@@ -625,7 +626,7 @@ useFocusEffect(
       zoomStep={4} // 줌 단계
       initialZoom={images.length > 1 ? 2.2: 1} // 초기 줌 배율
       bindToBorders={true}
-      initialOffsetY={images.length > 1 ? 145: 1}
+      initialOffsetY={images.length > 1 ? setY: 1}
           
           
           
@@ -756,12 +757,12 @@ const ImageDetails_New = ({ route,navigation}) => {
         ),
         headerLeft: () => (
           <View style={styles.headerLeftContainer}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
+          <TouchableOpacity onPress={() => navigation.popToTop()}>
+          <Image
              source={require('./images/previous.png')}
-             style={styles.buttonImagePrevIndex}
-            />
-            <Text style={styles.buttonTextIndex}>목록</Text>
+            style={styles.buttonImagePrevIndex}
+         />
+          <Text style={styles.buttonTextIndex}>목록</Text>
           </TouchableOpacity>
 
             <TouchableOpacity onPress={goToPrevious} style={{ flexDirection: 'row', alignItems: 'center',  position: 'absolute',   left: 100 ,}}>
@@ -899,7 +900,7 @@ const ImageDetails_New = ({ route,navigation}) => {
         zoomStep={4} // 줌 단계
         initialZoom={images.length > 1 ? 2.2: 1} // 초기 줌 배율
         bindToBorders={true}
-        initialOffsetY={images.length > 1 ? 145: 1}
+        initialOffsetY={images.length > 1 ? setY: 1}
           >
         {images.map((image, index) => (
           <Image key={index} source={image} style={images.length > 1 ? styles.image2 : styles.image} />
