@@ -620,12 +620,13 @@ useFocusEffect(
        
       <ReactNativeZoomableView   style={{ flexGrow: 1}}// ZoomableView 추가
       
-          maxZoom={3.5} // 최대 줌 배율
-          minZoom={1} // 최소 줌 배율
-          zoomStep={3.5} // 줌 단계
-          initialZoom={images.length > 1 ? 2.1: 1} // 초기 줌 배율
+          maxZoom={images.length > 1 ? 4 : 2} // 최대 줌 배율
+          minZoom={images.length > 1 ? 2.2 : 1}
+          zoomStep={4} // 줌 단계
+          initialZoom={images.length > 1 ? 2.2: 1} // 초기 줌 배율
           bindToBorders={true}
-          initialOffsetY={images.length > 1 ? 135: 1}
+          initialOffsetY={images.length > 1 ? 145: 1}
+          
           
           
         >
@@ -893,12 +894,12 @@ const ImageDetails_New = ({ route,navigation}) => {
          
         <ReactNativeZoomableView // ZoomableView 추가
         
-        maxZoom={3.5} // 최대 줌 배율
-        minZoom={1} // 최소 줌 배율
-        zoomStep={3.5} // 줌 단계
-        initialZoom={images.length > 1 ? 2.1: 1} // 초기 줌 배율
+        maxZoom={images.length > 1 ? 4 : 2} // 최대 줌 배율
+        minZoom={images.length > 1 ? 2.2 : 1}
+        zoomStep={4} // 줌 단계
+        initialZoom={images.length > 1 ? 2.2: 1} // 초기 줌 배율
         bindToBorders={true}
-        initialOffsetY={images.length > 1 ? 135: 1}
+        initialOffsetY={images.length > 1 ? 145: 1}
           >
         {images.map((image, index) => (
           <Image key={index} source={image} style={images.length > 1 ? styles.image2 : styles.image} />
