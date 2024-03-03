@@ -622,7 +622,7 @@ useFocusEffect(
       
           maxZoom={3.5} // 최대 줌 배율
           minZoom={1} // 최소 줌 배율
-          zoomStep={3} // 줌 단계
+          zoomStep={3.5} // 줌 단계
           initialZoom={images.length > 1 ? 2.1: 1} // 초기 줌 배율
           bindToBorders={true}
           initialOffsetY={images.length > 1 ? 135: 1}
@@ -895,7 +895,7 @@ const ImageDetails_New = ({ route,navigation}) => {
         
         maxZoom={3.5} // 최대 줌 배율
         minZoom={1} // 최소 줌 배율
-        zoomStep={3} // 줌 단계
+        zoomStep={3.5} // 줌 단계
         initialZoom={images.length > 1 ? 2.1: 1} // 초기 줌 배율
         bindToBorders={true}
         initialOffsetY={images.length > 1 ? 135: 1}
