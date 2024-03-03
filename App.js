@@ -1,7 +1,7 @@
 import React, { useState, useEffect,useRef,useLayoutEffect,useCallback} from 'react';
 import { NavigationContainer,useFocusEffect,useNavigation,useNavigationState} from '@react-navigation/native';
 import { createStackNavigator,CardStyleInterpolators} from '@react-navigation/stack';
-import { View, Text, FlatList, TouchableOpacity, TextInput,Image, ScrollView, Modal, TouchableWithoutFeedback,Animated,Linking,Pressable,Alert} from 'react-native'; // Image 컴포넌트 추가
+import { View, Text, FlatList, TouchableOpacity, TextInput,Image, ScrollView, Modal, TouchableWithoutFeedback,Animated,Dimensions,Linking,Pressable,Alert} from 'react-native'; // Image 컴포넌트 추가
 import Swipeout from 'react-native-swipeout'; // react-native-swipeout 라이브러리 추가
 import AsyncStorage from '@react-native-async-storage/async-storage'; // AsyncStorage 추가
 import { Audio } from 'expo-av'; // Expo Audio API 불러오기
@@ -455,20 +455,23 @@ const ImageDetailScreen = ({ route,navigation }) => {
   const imageNames = Object.keys(imageSources); // 모든 이미지 이름을 배열로 변환
   const index = imageNames.indexOf(imageName); // 현재 이미지의 인덱스
 
-  const goToPrevious = useCallback(() => {
-    if (index > 0) {
-      const prevImageName = imageNames[index - 1];
-      navigation.replace('ImageDetailScreen', { imageName: prevImageName });
+  const goToPrevious = () => {
+    if (currentIndex > 0) {
+      const prevImageName = imageKeys[currentIndex - 1];
+      // replace 대신 push 사용
+      navigation.push('ImageDetailScreen', { imageName: prevImageName, direction: 'back' });
     }
-  }, [index, imageNames, navigation]);
-
-  const goToNext = useCallback(() => {
-    if (index < imageNames.length - 1) {
-      const nextImageName = imageNames[index + 1];
-      navigation.replace('ImageDetailScreen', { imageName: nextImageName });
+  };
+  
+  const goToNext = () => {
+    if (currentIndex < imageKeys.length - 1) {
+      const nextImageName = imageKeys[currentIndex + 1];
+      // replace 대신 push 사용
+      navigation.push('ImageDetailScreen', { imageName: nextImageName });
     }
-  }, [index, imageNames, navigation]);
+  };
 
+  
  
 useLayoutEffect(() => {
   navigation.setOptions({
@@ -600,6 +603,8 @@ useFocusEffect(
 
 
 
+
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -608,22 +613,26 @@ useFocusEffect(
       showsHorizontalScrollIndicator={false}
       //showsVerticalScrollIndicator={false}
     >
-    <View style={{ flex: 1}}>
+    
+   <View style={{ flexGrow: 1}}>
 
     
        
-      <ReactNativeZoomableView // ZoomableView 추가
+      <ReactNativeZoomableView   style={{ flexGrow: 1}}// ZoomableView 추가
       
-          maxZoom={3} // 최대 줌 배율
+          maxZoom={3.5} // 최대 줌 배율
           minZoom={1} // 최소 줌 배율
-          zoomStep={0.1} // 줌 단계
-          initialZoom={1} // 초기 줌 배율
-          bindToBorders={images.length < 2}
+          zoomStep={3} // 줌 단계
+          initialZoom={images.length > 1 ? 2.1: 1} // 초기 줌 배율
+          bindToBorders={true}
+          initialOffsetY={images.length > 1 ? 135: 1}
+          
+          
         >
       {images.map((image, index) => (
-        <Image key={index} source={image} style={styles.image} />
+        <Image key={index} source={image} style={images.length > 1 ? styles.image2 : styles.image} />
       ))}
-      
+      </ReactNativeZoomableView>
       
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:0}}>
       <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
@@ -663,7 +672,7 @@ useFocusEffect(
 </View>
 
       </View>
-      </ReactNativeZoomableView>
+      
      
       </View>
       </ScrollView>
@@ -694,7 +703,7 @@ const ImageDetails_New = ({ route,navigation}) => {
     }
     const previousIndex = index - 1;
     // 페이지 교체 로직, 예를 들어
-    navigation.replace('ImageDetails_New', { 
+    navigation.push('ImageDetails_New', { 
       imageName: favoriteSongs[previousIndex].name, 
       favoriteSongs: favoriteSongs,
       direction: 'back'
@@ -707,7 +716,7 @@ const ImageDetails_New = ({ route,navigation}) => {
     }
     const nextIndex = index + 1;
     // 페이지 교체 로직, 예를 들어
-    navigation.replace('ImageDetails_New', { 
+    navigation.push('ImageDetails_New', { 
       imageName: favoriteSongs[nextIndex].name, 
       favoriteSongs: favoriteSongs 
     });
@@ -884,16 +893,17 @@ const ImageDetails_New = ({ route,navigation}) => {
          
         <ReactNativeZoomableView // ZoomableView 추가
         
-            maxZoom={3} // 최대 줌 배율
-            minZoom={1} // 최소 줌 배율
-            zoomStep={0.1} // 줌 단계
-            initialZoom={1} // 초기 줌 배율
-            bindToBorders={images.length < 2}
+        maxZoom={3.5} // 최대 줌 배율
+        minZoom={1} // 최소 줌 배율
+        zoomStep={3} // 줌 단계
+        initialZoom={images.length > 1 ? 2.1: 1} // 초기 줌 배율
+        bindToBorders={true}
+        initialOffsetY={images.length > 1 ? 135: 1}
           >
         {images.map((image, index) => (
-          <Image key={index} source={image} style={styles.image} />
+          <Image key={index} source={image} style={images.length > 1 ? styles.image2 : styles.image} />
         ))}
-        
+        </ReactNativeZoomableView>
         
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' ,top:0}}>
         <Text>{formatTime(playbackPosition)} / {formatTime(playbackDuration)}</Text>
@@ -933,7 +943,7 @@ const ImageDetails_New = ({ route,navigation}) => {
   </View>
   
         </View>
-        </ReactNativeZoomableView>
+        
        
         </View>
         </ScrollView>
@@ -1001,7 +1011,7 @@ const NewSongScreen = ({ route }) => {
     >
       <TouchableOpacity onPress={() => navigateToImageDetail(item.name)}>
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemName, { fontWeight: 'bold' }]}>
+          <Text style={[styles.itemName2, { fontWeight: 'bold' }]}>
             {item.name}
           </Text>
         </View>
@@ -1046,7 +1056,7 @@ const App = () => {
 
         <Stack.Screen name="Opening" component={OpeningScreen} />
         {/* 새로운 찬송 화면을 추가 */}
-        <Stack.Screen
+        <Stack.Screen 
           name="더욱 소중히 불러보고 싶은 찬송"
           component={NewSongScreen}
           options={{

@@ -55,7 +55,11 @@ export const styles = StyleSheet.create({
       height: 50,
     },
     itemName: {
-      top: 10, // 이미지의 중앙에 위치하도록 설정
+      top: 12, // 이미지의 중앙에 위치하도록 설정
+      fontSize: 16,
+    },
+    itemName2: {
+      top: 24, // 이미지의 중앙에 위치하도록 설정
       fontSize: 16,
     },
     separator: {
@@ -63,17 +67,25 @@ export const styles = StyleSheet.create({
       backgroundColor: '#ccc',
       marginBottom: 10,
     },
+    
     scrollContainer: {
       flexGrow: 1,
       justifyContent: 'flex-start', // 이미지를 수직 상단 정렬
       alignItems: 'center',
     },
     image: {
-      marginTop:-19,
+      marginTop:-20,
       width: '110%', // 이미지를 화면에 꽉 차도록 넓이 설정
       height: windowHeight * 0.8, // 이미지가 화면의 70%를 차지하도록 설정
       resizeMode: 'contain', // 이미지가 화면에 꽉 차도록 조절
     },
+    image2: {
+      marginTop:0,
+      width: '110%', // 이미지를 화면에 꽉 차도록 넓이 설정
+      height: windowHeight * 0.38, // 이미지가 화면의 70%를 차지하도록 설정
+      resizeMode: 'contain', // 이미지가 화면에 꽉 차도록 조절
+    },
+    
     menuButtonContainer: {
       position: 'absolute',
       top: 20,
