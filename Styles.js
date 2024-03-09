@@ -15,21 +15,23 @@ export const styles = StyleSheet.create({
       fontSize: 24,
       fontWeight: 'bold',
       //marginBottom: ,
-      marginTop: 20,
+      marginTop: 10,
     },
     searchInput: {
-      height: 40,
+      height: 45,
       borderWidth: 1,
       borderColor: '#ccc',
       borderRadius: 5,
       paddingHorizontal: 10,
-      marginBottom: 5,
+      marginTop:-10,
+      marginBottom: 10,
+      top:0
     },
     clearButton: {
       position: 'absolute',
       right: 9,
       padding:20,
-      top: 59,
+      top: 42,
       right : -10,
     },
     // clearButtonText: {
@@ -55,11 +57,11 @@ export const styles = StyleSheet.create({
       height: 50,
     },
     itemName: {
-      top: 12, // 이미지의 중앙에 위치하도록 설정
+      top: 0-5, // 이미지의 중앙에 위치하도록 설정
       fontSize: 16,
     },
     itemName2: {
-      top: 24, // 이미지의 중앙에 위치하도록 설정
+      top: 8, // 이미지의 중앙에 위치하도록 설정
       fontSize: 16,
     },
     separator: {
@@ -88,7 +90,7 @@ export const styles = StyleSheet.create({
     
     menuButtonContainer: {
       position: 'absolute',
-      top: 20,
+      top: 11,
       left: 10,
       marginBottom: 20,
     },

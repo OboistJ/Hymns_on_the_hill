@@ -602,20 +602,22 @@ const MyTabView = () => {
   const goToPrevious = () => {
     if (currentIndex > 0) {
       const prevImageName = imageKeys[currentIndex - 1];
-      // replace 대신 push 사용
-      navigation.push('ImageDetailScreen', { imageName: prevImageName, direction: 'back' });
+      navigation.push('ImageDetailScreen', { imageName: prevImageName, tabIndex: tabIndex }); // tabIndex 추가
     }
   };
   
   const goToNext = () => {
     if (currentIndex < imageKeys.length - 1) {
       const nextImageName = imageKeys[currentIndex + 1];
-      // replace 대신 push 사용
-      navigation.push('ImageDetailScreen', { imageName: nextImageName });
+      navigation.push('ImageDetailScreen', { imageName: nextImageName, tabIndex: tabIndex }); // tabIndex 추가
     }
   };
 
-  
+  useLayoutEffect(() => {
+    if (route.params?.tabIndex !== undefined) {
+      setTabIndex(route.params.tabIndex);
+    }
+  }, [route.params?.tabIndex]);
  
 useLayoutEffect(() => {
   navigation.setOptions({
@@ -624,7 +626,7 @@ useLayoutEffect(() => {
     headerBackground: () => (
       <Image
         source={require('./images/coverImage.png')}
-        style={{ width: '100%', height: '110%', resizeMode: 'cover' }}
+        style={{ width: '100%', height: '105%', resizeMode: 'cover' }}
       />
     ),
     headerLeft: () => (
@@ -927,6 +929,7 @@ const MyTabView = () => {
     navigation.push('ImageDetails_New', { 
       imageName: favoriteSongs[previousIndex].name, 
       favoriteSongs: favoriteSongs,
+      tabIndex: tabIndex,
       direction: 'back'
     });
   };
@@ -939,9 +942,19 @@ const MyTabView = () => {
     // 페이지 교체 로직, 예를 들어
     navigation.push('ImageDetails_New', { 
       imageName: favoriteSongs[nextIndex].name, 
-      favoriteSongs: favoriteSongs 
+      favoriteSongs: favoriteSongs ,
+      tabIndex: tabIndex ,
     });
   };
+
+  
+  
+
+  useLayoutEffect(() => {
+    if (route.params?.tabIndex !== undefined) {
+      setTabIndex(route.params.tabIndex);
+    }
+  }, [route.params?.tabIndex]);
   
 
   // 현재 이미지의 상세 정보를 보여줍니다.
@@ -957,7 +970,7 @@ const MyTabView = () => {
         headerBackground: () => (
           <Image
             source={require('./images/coverImage.png')}
-            style={{ width: '100%', height: '110%', resizeMode: 'cover' }}
+            style={{ width: '100%', height: '110%', resizeMode: 'cover',  }}
           />
           
         ),
@@ -971,7 +984,7 @@ const MyTabView = () => {
         headerBackground: () => (
           <Image
             source={require('./images/coverImage.png')}
-            style={{ width: '100%', height: '110%', resizeMode: 'cover' }}
+            style={{ width: '100%', height: '105%', resizeMode: 'cover', }}
           />
         ),
         headerLeft: () => (
@@ -1278,7 +1291,7 @@ const HomeStack = () => {
       headerBackground: () => (
         <Image
           source={require('./images/coverImage.png')} // 배경이미지
-          style={{ width: '100%', height: '110%' }} // 이미지가 헤더 전체를 채우도록 설정
+          style={{ width: '100%', height: '100%' }} // 이미지가 헤더 전체를 채우도록 설정
         />
       ),
     }}>
@@ -1322,6 +1335,7 @@ const HomeStack = () => {
           headerTitleStyle: {
             fontSize: 18, // 헤더 타이틀의 폰트 사이즈를 15로 설정
             fontFamily:'HakgyoansimBareonbatangB',
+
           },
         }}
       />
