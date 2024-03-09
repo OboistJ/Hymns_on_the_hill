@@ -1304,7 +1304,7 @@ const HomeStack = () => {
             fontFamily:'HakgyoansimBareonbatangB',
             color: 'white',
             
-            bottom:3
+            bottom:7
           },
           headerTitleAlign: 'center',
         })}
