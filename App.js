@@ -111,6 +111,7 @@ const HomeScreen = (route) => {
   const [swipeoutClose, setSwipeoutClose] = useState(true);
   const [swipeLocked, setSwipeLocked] = useState(false);
   
+  
   const [modalVisible2, setModalVisible2] = useState(false);
   
   const flatListRef = useRef(); // FlatList 참조를 저장하기 위한 ref
@@ -442,8 +443,20 @@ const ImageDetailScreen = ({ route,navigation }) => {
   const soundSource = soundSources[imageName];
   const lyrics = lyricsSources[imageName]; // 가사 데이터
 
+  const [fontSize, setFontSize] = useState(20); // 기본 폰트 크기를 20으로 설정
+
+  // 폰트 크기를 증가시키는 함수
+  const increaseFontSize = () => {
+    setFontSize(currentFontSize => currentFontSize + 2);
+  };
+
+  // 폰트 크기를 감소시키는 함수
+  const decreaseFontSize = () => {
+    setFontSize(currentFontSize => currentFontSize - 2);
+  };
+
   // 초기 탭 인덱스와 라우트 설정
-  const [tabIndex, setTabIndex] = useState(0); // 탭 인덱스 상태를 위한 변수명 변경
+  const [tabIndex, setTabIndex] = useState(route.params?.tabIndex || 0);
   const [routes] = useState([
     { key: 'images', title: '악보' },
     { key: 'lyrics', title: '가사' },
@@ -542,26 +555,30 @@ const ImagesTab = () => (
   </View>
 );
 
-// Lyrics 탭의 콘텐츠를 렌더링하는 컴포넌트
-const LyricsTab = () => (
-  <ScrollView 
-      //maximumZoomScale={2}
-      //minimumZoomScale={1}
-      showsHorizontalScrollIndicator={false}
-      //showsVerticalScrollIndicator={false}
-    >
-      
-      <Text style={{ fontSize: 23, padding: 20 , fontWeight:'bold'}}>
+
+
+ // Lyrics 탭의 콘텐츠를 렌더링하는 컴포넌트
+ const LyricsTab = () => (
+  <View style={styles.container}>
+    <ScrollView showsHorizontalScrollIndicator={false}>
+      <Text style={[styles.text, { fontSize: fontSize + 5, fontWeight: 'bold' }]}>
         {imageName}
       </Text>
-      
-    {lyrics.map((line, index) => (
-      <Text key={index} style={{ fontSize: 20, padding: 20 }}>
-        {line}
-      </Text>
-    ))}
-      </ScrollView>
- 
+      {lyrics.map((line, index) => (
+        <Text key={index} style={[styles.text, { fontSize }]}>
+          {line}
+        </Text>
+      ))}
+    </ScrollView>
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity onPress={increaseFontSize} style={styles.button}>
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={decreaseFontSize} style={styles.button}>
+        <Text style={styles.buttonText}>-</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
 );
 
 
@@ -598,26 +615,38 @@ const MyTabView = () => {
   // 이미지 이름으로부터 인덱스 찾기
   const imageNames = Object.keys(imageSources); // 모든 이미지 이름을 배열로 변환
   const index = imageNames.indexOf(imageName); // 현재 이미지의 인덱스
+  
 
   const goToPrevious = () => {
     if (currentIndex > 0) {
       const prevImageName = imageKeys[currentIndex - 1];
-      navigation.push('ImageDetailScreen', { imageName: prevImageName, tabIndex: tabIndex }); // tabIndex 추가
+      navigation.navigate('ImageDetailScreen', { 
+        imageName: prevImageName, 
+        tabIndex }); // tabIndex 추가
     }
   };
   
   const goToNext = () => {
     if (currentIndex < imageKeys.length - 1) {
       const nextImageName = imageKeys[currentIndex + 1];
-      navigation.push('ImageDetailScreen', { imageName: nextImageName, tabIndex: tabIndex }); // tabIndex 추가
+      navigation.navigate('ImageDetailScreen', { 
+        imageName: nextImageName, 
+        tabIndex: tabIndex, }); // tabIndex 추가
     }
   };
 
-  useLayoutEffect(() => {
-    if (route.params?.tabIndex !== undefined) {
-      setTabIndex(route.params.tabIndex);
-    }
-  }, [route.params?.tabIndex]);
+  
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const newTabIndex = route.params?.tabIndex ?? 0;
+      setTabIndex(newTabIndex);
+      return () => {};
+    }, [route.params?.tabIndex])
+  );
+
+ 
+  
  
 useLayoutEffect(() => {
   navigation.setOptions({
@@ -758,13 +787,14 @@ const renderTabBar = props => (
 );
 
 return (
-  <TabView // 탭 바의 배경 색상
+  <TabView
   navigationState={{ index: tabIndex, routes }}
   renderScene={renderScene}
-  onIndexChange={setTabIndex} // 상태 업데이트 함수명도 변경
+  onIndexChange={setTabIndex}
   initialLayout={{ width: '100%' }}
-   renderTabBar={renderTabBar}
+  renderTabBar={renderTabBar}
 />
+
 );
 };
 
@@ -780,11 +810,25 @@ const ImageDetails_New = ({ route,navigation}) => {
   const lyrics = lyricsSources[imageName]; // 가사 데이터
 
    // 초기 탭 인덱스와 라우트 설정
-   const [tabIndex, setTabIndex] = useState(0); // 탭 인덱스 상태를 위한 변수명 변경
+   const [tabIndex, setTabIndex] = useState(route.params?.tabIndex || 0);
+   
    const [routes] = useState([
      { key: 'images', title: '악보' },
      { key: 'lyrics', title: '가사' },
    ]);
+
+   const [fontSize, setFontSize] = useState(20); // 기본 폰트 크기를 20으로 설정
+
+  // 폰트 크기를 증가시키는 함수
+  const increaseFontSize = () => {
+    setFontSize(currentFontSize => currentFontSize + 1);
+  };
+
+  // 폰트 크기를 감소시키는 함수
+  const decreaseFontSize = () => {
+    setFontSize(currentFontSize => currentFontSize - 1);
+  };
+
  
   
   const [sound, setSound] = useState(null);
@@ -869,26 +913,30 @@ const ImagesTab = () => (
         </ScrollView>
 );
 
-// Lyrics 탭의 콘텐츠를 렌더링하는 컴포넌트
-const LyricsTab = () => (
-  <ScrollView 
-      //maximumZoomScale={2}
-      //minimumZoomScale={1}
-      showsHorizontalScrollIndicator={false}
-      //showsVerticalScrollIndicator={false}
-    >
-      
-      <Text style={{ fontSize: 23, padding: 20 , fontWeight:'bold'}}>
+
+
+ // Lyrics 탭의 콘텐츠를 렌더링하는 컴포넌트
+ const LyricsTab = () => (
+  <View style={styles.container}>
+    <ScrollView showsHorizontalScrollIndicator={false}>
+      <Text style={[styles.text, { fontSize: fontSize + 5, fontWeight: 'bold' }]}>
         {imageName}
       </Text>
-      
-    {lyrics.map((line, index) => (
-      <Text key={index} style={{ fontSize: 20, padding: 20 }}>
-        {line}
-      </Text>
-    ))}
-      </ScrollView>
- 
+      {lyrics.map((line, index) => (
+        <Text key={index} style={[styles.text, { fontSize }]}>
+          {line}
+        </Text>
+      ))}
+    </ScrollView>
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity onPress={increaseFontSize} style={styles.button}>
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={decreaseFontSize} style={styles.button}>
+        <Text style={styles.buttonText}>-</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
 );
 
 
@@ -920,41 +968,44 @@ const MyTabView = () => {
   
 };
 
-  const goToPrevious = () => {
-    if (index <= 0) {
-      return; // 첫 번째 아이템에서 더 이전으로 갈 수 없음, 아무런 동작도 하지 않음
-    }
+
+
+
+const goToPrevious = () => {
+  if (index > 0) {
     const previousIndex = index - 1;
-    // 페이지 교체 로직, 예를 들어
     navigation.push('ImageDetails_New', { 
       imageName: favoriteSongs[previousIndex].name, 
       favoriteSongs: favoriteSongs,
-      tabIndex: tabIndex,
-      direction: 'back'
-    });
-  };
+      tabIndex: tabIndex,});
+  }
   
-  const goToNext = () => {
-    if (index >= favoriteSongs.length - 1) {
-      return; // 마지막 아이템에서 더 다음으로 갈 수 없음, 아무런 동작도 하지 않음
-    }
+};
+
+
+
+
+const goToNext = () => {
+  if (index < favoriteSongs.length - 1) {
     const nextIndex = index + 1;
-    // 페이지 교체 로직, 예를 들어
-    navigation.push('ImageDetails_New', { 
-      imageName: favoriteSongs[nextIndex].name, 
-      favoriteSongs: favoriteSongs ,
-      tabIndex: tabIndex ,
-    });
-  };
-
+  navigation.push('ImageDetails_New', { 
+  imageName: favoriteSongs[nextIndex].name, 
+  favoriteSongs: favoriteSongs ,
+  tabIndex: tabIndex ,});
   
   
+  }
+};
 
-  useLayoutEffect(() => {
-    if (route.params?.tabIndex !== undefined) {
-      setTabIndex(route.params.tabIndex);
-    }
-  }, [route.params?.tabIndex]);
+
+useFocusEffect(
+  React.useCallback(() => {
+    const newTabIndex = route.params?.tabIndex ?? 0;
+    setTabIndex(newTabIndex);
+    return () => {};
+  }, [route.params?.tabIndex])
+);
+
   
 
   // 현재 이미지의 상세 정보를 보여줍니다.

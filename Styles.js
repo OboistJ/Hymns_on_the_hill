@@ -295,4 +295,18 @@ export const styles = StyleSheet.create({
       // 다른 텍스트 스타일들...
     },
 
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop: 10,
+    },
+    button: {
+      marginHorizontal: 10,
+      backgroundColor: 'lightgrey',
+      padding: 10,
+      borderRadius: 5,
+    },
+    buttonText: {
+      fontSize: 20,
+    },
   });
