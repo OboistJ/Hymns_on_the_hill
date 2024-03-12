@@ -413,6 +413,7 @@ useEffect(() => {
   )}
   keyExtractor={(item) => item.id.toString()}
   ItemSeparatorComponent={() => <View style={styles.separator} />} // 여기에 구분선 컴포넌트 추가
+  showsVerticalScrollIndicator={false} // 스크롤바 숨기기
 />
 
       <View style={styles.menuButtonContainer}>
@@ -498,7 +499,7 @@ const ImagesTab = () => (
       //maximumZoomScale={2}
       //minimumZoomScale={1}
       showsHorizontalScrollIndicator={false}
-      //showsVerticalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
     >
     
    <View style={{ flexGrow: 1}}>
@@ -862,7 +863,7 @@ const ImagesTab = () => (
         //maximumZoomScale={2}
         //minimumZoomScale={1}
         showsHorizontalScrollIndicator={false}
-        //showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
       >
       <View style={{ flex: 1}}>
   
