@@ -309,4 +309,25 @@ export const styles = StyleSheet.create({
     buttonText: {
       fontSize: 20,
     },
+    // 기존 스타일 ...
+  indexContainer: {
+    position: 'absolute',
+    right: 11,
+    top: windowHeight *0.3, // 조정 가능
+    zIndex: 1,
+  },
+  indexButton: {
+    alignItems: 'center', // 수평 방향으로 중앙 정렬
+    justifyContent: 'center', // 수직 방향으로 중앙 정렬
+    paddingVertical: 7, // 버튼의 세로 패딩
+    paddingHorizontal: 4, // 버튼의 가로 패딩
+    backgroundColor: 'lightgray', // 배경 색상
+    borderRadius: 100, // 배경을 동그랗게 만들기 위한 값. 조정 가능
+    marginBottom: 5, // 버튼 간의 간격
+    // 가로와 세로 길이를 동일하게 설정하고 borderRadius를 길이의 절반으로 설정하여 완전한 원 형태를 만들 수 있습니다.
+  },
+  indexButtonText: {
+     // 텍스트를 가운데 정렬
+    // 폰트 스타일 설정이 필요한 경우 여기에 추가
+  },
   });

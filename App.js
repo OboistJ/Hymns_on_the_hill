@@ -104,6 +104,12 @@ const OpeningScreen = ({ navigation }) => {
 
 const HomeScreen = (route) => {
 
+  const scrollToItem = (index) => {
+    // FlatList의 scrollToIndex 메서드를 사용하여 특정 인덱스로 스크롤
+    flatListRef.current.scrollToIndex({animated: true, index: index});
+  };
+  
+
   const navigation = useNavigation(); 
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredNames, setFilteredNames] = useState(IMAGE_DATA);
@@ -359,6 +365,7 @@ useEffect(() => {
 
   return (
     <View style={styles.container}>
+      
         <Text style={styles.title}>찬송 목록</Text>
         <TouchableOpacity onPress={openModal2} style={styles.helpButtonContainer}>
   <Image source={require('./images/Help.png')} style={styles.helpIcon} />
@@ -381,7 +388,14 @@ useEffect(() => {
   />
 </TouchableOpacity>
 
-  
+<View style={styles.indexContainer}>
+      {/* 인덱스 버튼들 */}
+      {[1, 50, 100, 150, 200, 250].map((item, index) => (
+        <TouchableOpacity key={index} onPress={() => scrollToItem(item-1)} style={styles.indexButton}>
+          <Text>{item}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
 <FlatList
       ref={flatListRef}
 
