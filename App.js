@@ -674,7 +674,7 @@ useLayoutEffect(() => {
     ),
     headerLeft: () => (
       <View style={styles.headerLeftContainer}>
-      <TouchableOpacity onPress={() => navigation.replace('Home', { direction: 'back' })}>
+      <TouchableOpacity onPress={() => navigation.goBack('Home', { direction: 'back' })}>
           <Image
             source={require('./images/previous.png')}
             style={styles.buttonImagePrevIndex}
