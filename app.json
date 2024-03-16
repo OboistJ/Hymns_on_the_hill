@@ -2,7 +2,7 @@
   "expo": {
     "name": "언덕위의찬송",
     "slug": "test03",
-    "version": "1.0.3",
+    "version": "2.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,8 +29,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e5802387-7b64-407c-83ae-a8cb7d61ecbd"
+        "projectId": "959da00a-dac1-486e-8b88-d129cd03eef1"
       }
-    }
+    },
+    "owner": "shinjuan"
   }
 }
