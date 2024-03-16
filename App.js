@@ -458,7 +458,7 @@ const ImageDetailScreen = ({ route,navigation }) => {
   const soundSource = soundSources[imageName];
   const lyrics = lyricsSources[imageName]; // 가사 데이터
 
-  const [fontSize, setFontSize] = useState(20); // 기본 폰트 크기를 20으로 설정
+  const [fontSize, setFontSize] = useState(14.5); // 기본 폰트 크기를 20으로 설정
 
   // 폰트 크기를 증가시키는 함수
   const increaseFontSize = () => {
@@ -498,6 +498,7 @@ const ImagesTab = () => (
       contentContainerStyle={{ flexGrow: 1 }}
       //maximumZoomScale={2}
       //minimumZoomScale={1}
+      horizontal={false}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
     >
@@ -575,22 +576,23 @@ const ImagesTab = () => (
  // Lyrics 탭의 콘텐츠를 렌더링하는 컴포넌트
  const LyricsTab = () => (
   <View style={styles.container}>
-    <ScrollView showsHorizontalScrollIndicator={false}>
+    <ScrollView showsHorizontalScrollIndicator={false} horizontal={false}>
       <Text style={[styles.text, { fontSize: fontSize + 5, fontWeight: 'bold' }]}>
-        {imageName}
+      {'\n'}{imageName}{'\n'}
       </Text>
       {lyrics.map((line, index) => (
         <Text key={index} style={[styles.text, { fontSize }]}>
           {line}
+          {'\n'}
         </Text>
       ))}
     </ScrollView>
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={increaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>+</Text>
+        <Text style={styles.buttonText}>확대</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={decreaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>-</Text>
+        <Text style={styles.buttonText}>축소</Text>
       </TouchableOpacity>
     </View>
   </View>
@@ -832,7 +834,7 @@ const ImageDetails_New = ({ route,navigation}) => {
      { key: 'lyrics', title: '가사' },
    ]);
 
-   const [fontSize, setFontSize] = useState(20); // 기본 폰트 크기를 20으로 설정
+   const [fontSize, setFontSize] = useState(14.5); // 기본 폰트 크기를 20으로 설정
 
   // 폰트 크기를 증가시키는 함수
   const increaseFontSize = () => {
@@ -862,6 +864,7 @@ const ImagesTab = () => (
         contentContainerStyle={{ flexGrow: 1 }}
         //maximumZoomScale={2}
         //minimumZoomScale={1}
+        horizontal={false}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
@@ -933,7 +936,7 @@ const ImagesTab = () => (
  // Lyrics 탭의 콘텐츠를 렌더링하는 컴포넌트
  const LyricsTab = () => (
   <View style={styles.container}>
-    <ScrollView showsHorizontalScrollIndicator={false}>
+    <ScrollView showsHorizontalScrollIndicator={false} horizontal={false}>
       <Text style={[styles.text, { fontSize: fontSize + 5, fontWeight: 'bold' }]}>
         {imageName}
       </Text>
@@ -945,10 +948,10 @@ const ImagesTab = () => (
     </ScrollView>
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={increaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>+</Text>
+        <Text style={styles.buttonText}>확대</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={decreaseFontSize} style={styles.button}>
-        <Text style={styles.buttonText}>-</Text>
+        <Text style={styles.buttonText}>축소</Text>
       </TouchableOpacity>
     </View>
   </View>

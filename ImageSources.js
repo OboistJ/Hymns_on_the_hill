@@ -127,7 +127,7 @@ export const imageSources = {
 '119.주여 작은 내 소망을': [require('./images/132.png'), require('./images/133.png')],
   
 '120.주님이여 이손을': [require('./images/133.png')],
-'121.우리는 그렇게 살아요': [require('./images/134.png')],
+'121.우리 그렇게 살아요': [require('./images/134.png')],
 '122.우리 이 땅에': [require('./images/135.png')],
 '123.캄캄한 인생길': [require('./images/136.png'), require('./images/137.png')],
 '124.시온의 돌': [require('./images/138.png')],
